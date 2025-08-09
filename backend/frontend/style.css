@@ -1,0 +1,154 @@
+/* ===================
+   GLOBAL STYLES
+=================== */
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===================
+   CONTAINER BOX
+=================== */
+.container {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.8s ease;
+}
+
+/* Slide-up animation */
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===================
+   HEADINGS
+=================== */
+h2 {
+  margin-bottom: 20px;
+  color: #f1f1f1;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* ===================
+   INPUT FIELDS
+=================== */
+input {
+  width: 90%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 8px rgba(26, 188, 156, 0.6);
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===================
+   BUTTONS
+=================== */
+button {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  border: none;
+  padding: 12px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ===================
+   LINKS
+=================== */
+a {
+  color: #1abc9c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===================
+   VOTE PAGE BUTTONS
+=================== */
+.vote-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.vote-buttons button {
+  flex: 1;
+  min-width: 120px;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.vote-buttons button:hover {
+  background: linear-gradient(135deg, #2980b9, #1f5f87);
+}
+
+/* ===================
+   LOGOUT BUTTON
+=================== */
+.logout-btn {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #c0392b, #96281b);
+}
+
+/* ===================
+   RESPONSIVE DESIGN
+=================== */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+    width: 92%;
+  }
+
+  .vote-buttons {
+    flex-direction: column;
+  }
+}
