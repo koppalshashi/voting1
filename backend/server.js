@@ -12,11 +12,11 @@ app.use(cors());
 app.use(express.json());
 
 // Serve frontend static files
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve index.html at root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'login.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Routes
