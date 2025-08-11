@@ -3,9 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 
- 
-const User = require("./models/User");
-const Order = require("./models/Order");
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -226,5 +224,6 @@ cron.schedule("*/1 * * * *", async () => {
     console.error("❌ Error in cron job:", err);
   }
 });
+
 
 
