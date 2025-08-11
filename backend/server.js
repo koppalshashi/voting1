@@ -1,10 +1,7 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
 const cors = require("cors");
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
-const cron = require("node-cron"); // ✅ Only declare this once!
+const connectDB = require("./config/db");
 
  
 const User = require("./models/User");
