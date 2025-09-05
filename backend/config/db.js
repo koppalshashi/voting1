@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
+    console.log("👉 Connecting to MongoDB...");
     await mongoose.connect(process.env.MONGO_URI, {
-      // useNewUrlParser and useUnifiedTopology are no longer needed in mongoose 6+
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-    console.log("✅ MongoDB Connected");
+    console.log("✅ Connected to MongoDB Atlas");
   } catch (error) {
-    console.error(error);
+    console.error("❌ MongoDB connection error:", error.message);
     process.exit(1);
   }
 };
