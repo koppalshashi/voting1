@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     hasVoted: { type: Boolean, default: false },
-    role: { type: String, enum: ["voter", "admin"], default: "voter" }
+    role: { type: String, enum: ["voter", "admin"], default: "voter" },
+    deviceId: { type: String, default: null } // ✅ NEW field to lock device
   },
   { timestamps: true }
 );
