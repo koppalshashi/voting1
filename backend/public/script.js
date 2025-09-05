@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api"; // Change if backend is hosted online
+const API_URL = "https://voting1-5r3l.onrender.com"; // Change if backend is hosted online
 
 /* =======================
    REGISTER USER
@@ -130,3 +130,4 @@ function logout() {
   localStorage.removeItem("role");
   window.location.href = "login.html";
 }
+
