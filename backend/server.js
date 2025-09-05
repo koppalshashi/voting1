@@ -2,42 +2,50 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const path = require("path");
 
-dotenv.config();
+// ✅ Load env variables from project root
+dotenv.config({ path: path.join(__dirname, "../.env") });
+
+// ✅ Connect to MongoDB
 connectDB();
 
 const app = express();
 
-// ✅ Enable CORS for all origins (you can restrict later)
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// ✅ Enable CORS
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-
-mongoose.connect("mongodb+srv://shashistudy2125:shashi@cluster0.of0ap6g.mongodb.net/grocery_auth_app?retryWrites=true&w=majority")
-// mongoose.connect("mongodb+srv://shashistudy2125:Shashi%402003@cluster0.of0ap6g.mongodb.net/grocery_auth_app?retryWrites=true&w=majority")
-  .then(() => console.log("✅ Connected to MongoDB Atlas"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
-// Routes
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/login.html");
-});
+// ✅ Parse incoming JSON
 app.use(express.json());
 
-// Routes
+// ✅ API Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/vote", require("./routes/voteRoutes"));
 app.use("/api/results", require("./routes/resultRoutes"));
 app.use("/api/candidates", require("./routes/candidateRoutes"));
 app.use("/api/form-sync", require("./routes/formSyncRoutes"));
 
-// ✅ Health check route (optional but useful for Render)
+// ✅ Serve frontend (if you put files in /public)
+app.use(express.static(path.join(__dirname, "public")));
+
+// ✅ Health check route
 app.get("/", (req, res) => {
-  res.send("Voting API is running...");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// ✅ Catch-all (for React/SPA routing support)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`✅ Server running on http://localhost:${PORT}`)
+);
