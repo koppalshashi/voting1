@@ -23,7 +23,7 @@ async function register() {
   alert(data.message);
 
   if (data.message === "Registration successful") {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }
 }
 
@@ -39,10 +39,17 @@ async function login() {
     return;
   }
 
+  // ✅ get deviceId (same as in castVote)
+  let deviceId = localStorage.getItem("deviceId");
+  if (!deviceId) {
+    deviceId = "dev-" + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("deviceId", deviceId);
+  }
+
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password, deviceId }) // ✅ include deviceId
   });
 
   const data = await res.json();
@@ -64,6 +71,16 @@ async function login() {
 /* =======================
    CAST A VOTE (VOTER ONLY)
 ======================= */
+function getDeviceId() {
+  // Generate or retrieve stored deviceId (same browser = same ID)
+  let deviceId = localStorage.getItem("deviceId");
+  if (!deviceId) {
+    deviceId = "dev-" + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("deviceId", deviceId);
+  }
+  return deviceId;
+}
+
 async function castVote(candidate) {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -71,13 +88,15 @@ async function castVote(candidate) {
     return;
   }
 
+  const deviceId = getDeviceId();
+
   const res = await fetch(`${API_URL}/vote`, {
     method: "POST",
     headers: { 
       "Content-Type": "application/json", 
       "Authorization": `Bearer ${token}` 
     },
-    body: JSON.stringify({ candidate })
+    body: JSON.stringify({ candidate, deviceId })
   });
 
   const data = await res.json();
@@ -93,7 +112,7 @@ async function loadResults() {
 
   if (!token || role !== "admin") {
     alert("Access denied: Admins only");
-    window.location.href = "login.html";
+    window.location.href = "index.html";
     return;
   }
 
@@ -128,7 +147,5 @@ async function loadResults() {
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
-
-
