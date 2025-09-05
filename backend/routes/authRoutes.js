@@ -19,7 +19,8 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: "voter"
+      role: "voter",
+      deviceId: null, // ✅ ensure deviceId field exists
     });
     await user.save();
 
@@ -29,10 +30,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login Route
-// Login Route
+// Login Route with device restriction
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, deviceId } = req.body; // ✅ get deviceId from frontend
 
   try {
     const user = await User.findOne({ email });
@@ -49,6 +49,17 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
+    // ✅ Device check
+    if (!user.deviceId) {
+      // First login → store deviceId
+      user.deviceId = deviceId;
+      await user.save();
+    } else if (user.deviceId !== deviceId) {
+      // Already registered device → reject if new device
+      return res.status(403).json({ message: "Login blocked: new device detected" });
+    }
+
+    // Generate JWT
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -60,6 +71,5 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 module.exports = router;
